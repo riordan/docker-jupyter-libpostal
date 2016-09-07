@@ -1,12 +1,6 @@
 FROM jupyter/scipy-notebook
+# Adds Libpostal + Python binaries to Jupyter's SciPy Notebook
 
-# It might say "Maintainer," but this is NOT actively maintained
-# This is just an example of how to install Libpostal in Docker
-# Because I don't understand how Docker works.
-# So if this isn't enough to dissuade you from using this
-# Know that there isn't a "Microservice" for you to use Libpostal
-# As a part of your existing docker-all-the-things architecture.
-# Sorry. But perhaps soon!
 MAINTAINER David Riordan <dr@daveriordan.com>
 
 USER root
@@ -23,15 +17,16 @@ RUN apt-get update && \
 	git \
 	make && \
 	apt-get autoclean
-
+# Install Libpostal
 RUN git clone https://github.com/openvenues/libpostal.git /libpostal && \
 		cd /libpostal && \
 		./bootstrap.sh && \
-		./configure --datadir=/libpostal/data && \
+		./configure --datadir=/libpostal-data && \
 		make && \
 		make install && \
         ldconfig
 
+# Switch back to regular user + install python postal bindings
 USER $NB_USER
 RUN pip2 install \
         postal && \
