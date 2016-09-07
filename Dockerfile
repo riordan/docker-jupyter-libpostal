@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM jupyter/scipy-notebook
 
 # It might say "Maintainer," but this is NOT actively maintained
 # This is just an example of how to install Libpostal in Docker
@@ -12,8 +12,8 @@ MAINTAINER David Riordan <dr@daveriordan.com>
 USER root
 
 # Install prerequisites
-RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get update && \
+	apt-get install -y \
 	curl \
 	libsnappy-dev \
 	autoconf \
@@ -21,9 +21,19 @@ RUN apt-get install -y \
 	libtool \
 	pkg-config \
 	git \
-	make
-RUN apt-get autoclean
+	make && \
+	apt-get autoclean
 
-RUN git clone https://github.com/openvenues/libpostal.git
-RUN cd libpostal && ./bootstrap.sh && ./configure --datadir=/libpostal/data && make && make install
+RUN git clone https://github.com/openvenues/libpostal.git /libpostal && \
+		cd /libpostal && \
+		./bootstrap.sh && \
+		./configure --datadir=/libpostal/data && \
+		make && \
+		make install && \
+        ldconfig
 
+USER $NB_USER
+RUN pip2 install \
+        postal && \
+	pip3 install \
+        postal
