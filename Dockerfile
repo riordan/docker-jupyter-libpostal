@@ -9,14 +9,15 @@ USER root
 RUN apt-get update && \
 	apt-get install -y \
 	curl \
-	libsnappy-dev \
 	autoconf \
 	automake \
 	libtool \
+	python-dev \
 	pkg-config \
 	git \
 	make && \
 	apt-get autoclean
+
 # Install Libpostal
 RUN git clone https://github.com/openvenues/libpostal.git /libpostal && \
 		cd /libpostal && \
@@ -28,7 +29,5 @@ RUN git clone https://github.com/openvenues/libpostal.git /libpostal && \
 
 # Switch back to regular user + install python postal bindings
 USER $NB_USER
-RUN pip2 install \
-        postal && \
-	pip3 install \
+RUN	pip install \
         postal
