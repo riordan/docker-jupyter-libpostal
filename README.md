@@ -4,9 +4,9 @@ Docker-jupyter-libpostal
 ![Docker Automated build](https://img.shields.io/docker/automated/riordan/docker-jupyter-scipy-notebook-libpostal.svg)
 ![Docker Build Status](https://img.shields.io/docker/build/riordan/docker-jupyter-scipy-notebook-libpostal.svg)
 
-
-
 Extends Jupyter's [Docker-Stacks](https://github.com/jupyter/docker-stacks) for the [scipy-notebook](https://github.com/jupyter/docker-stacks/tree/master/scipy-notebook) to add the [Libpostal](https://github.com/openvenues/libpostal) library and its python bindings, [pypostal](https://github.com/openvenues/pypostal).
+
+[Github](https://github.com/riordan/docker-jupyter-libpostal) | [Docker Hub](https://hub.docker.com/r/riordan/docker-jupyter-scipy-notebook-libpostal/)
 
 # Usage
 Extends the configuration of the scipy-notebook
