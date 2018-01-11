@@ -1,33 +1,42 @@
 FROM jupyter/scipy-notebook
 # Adds Libpostal + Python binaries to Jupyter's SciPy Notebook
 
-MAINTAINER David Riordan <dr@daveriordan.com>
+LABEL maintainer='David Riordan <dr@daveriordan.com>'
 
 USER root
 
-# Install prerequisites
-RUN apt-get update && \
-	apt-get install -y \
-	curl \
-	autoconf \
-	automake \
-	libtool \
-	python-dev \
-	pkg-config \
-	git \
-	make && \
-	apt-get autoclean
+# LIBPOSTAL
+# Install Libpostal dependencies
+RUN apt-get update &&\
+ 	apt-get install -y \
+		git \
+		make \
+		curl \
+		autoconf \
+		automake \
+		libtool \
+		pkg-config
 
-# Install Libpostal
-RUN git clone https://github.com/openvenues/libpostal.git /libpostal && \
-		cd /libpostal && \
-		./bootstrap.sh && \
-		./configure --datadir=/libpostal-data && \
-		make && \
-		make install && \
-        ldconfig
+# Download libpostal source to /usr/local/libpostal
+RUN cd /usr/local && \
+	git clone https://github.com/openvenues/libpostal
 
-# Switch back to regular user + install python postal bindings
+# Create Libpostal data directory at /var/libpostal/data
+RUN cd /var && \
+	mkdir libpostal && \
+	cd libpostal && \
+	mkdir data
+
+# Install Libpostal from source
+RUN cd /usr/local/libpostal && \
+	./bootstrap.sh && \
+	./configure --datadir=/var/libpostal/data && \
+	make -j4 && \
+	make install && \
+  ldconfig
+
+# Install Libpostal python Bindings
+
 USER $NB_USER
 RUN	pip install \
         postal
