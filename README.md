@@ -1,15 +1,27 @@
 Docker-jupyter-libpostal
 =========================
+
+![Docker Automated build](https://img.shields.io/docker/automated/riordan/docker-jupyter-scipy-notebook-libpostal.svg)
+![Docker Build Status](https://img.shields.io/docker/build/riordan/docker-jupyter-scipy-notebook-libpostal.svg)
+
+
+
 Extends Jupyter's [Docker-Stacks](https://github.com/jupyter/docker-stacks) for the [scipy-notebook](https://github.com/jupyter/docker-stacks/tree/master/scipy-notebook) to add the [Libpostal](https://github.com/openvenues/libpostal) library and its python bindings, [pypostal](https://github.com/openvenues/pypostal).
 
 # Usage
 Extends the configuration of the scipy-notebook
 ## Basic Use
 
-The following command starts a container with the Notebook server listening for HTTP connections on port 8888 without authentication configured.
+The following command starts a container with the Notebook server listening for HTTP connections on port 8888.
 
 ```
-docker run -d -p 8888:8888 jupyter/scipy-notebook
+docker run -it --rm -p 8888:8888 riordan/docker-jupyter-scipy-notebook-libpostal
+```
+
+The following command starts a container for the Notebook server (same as above), but with the local directory mounted for analysis of a local file.
+
+```
+docker run -it --rm -p 8888:8888 -v $(pwd):/home/jovyan/work/ riordan/docker-jupyter-scipy-notebook-libpostal
 ```
 
 ## pypostal Usage
